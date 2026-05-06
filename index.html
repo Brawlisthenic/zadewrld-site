@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZadeWrld — Cybersecurity & IT Consulting</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080808;
+    --surface: #111;
+    --surface2: #161616;
+    --border: rgba(255,255,255,0.06);
+    --border2: rgba(255,255,255,0.1);
+    --text: #f0ede8;
+    --muted: #666;
+    --muted2: #444;
+    --accent: #c8f04e;
+    --accent-dim: rgba(200,240,78,0.08);
+    --accent-dim2: rgba(200,240,78,0.14);
+    --teal: #4ef0c8;
+    --amber: #f0a84e;
+    --red: #f04e4e;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; background: var(--bg); }
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+  a { text-decoration: none; color: inherit; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 60px;
+    background: rgba(8,8,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-size: 15px; font-weight: 800; letter-spacing: -.01em;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 32px; }
+  .nav-links a {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .1em; text-transform: uppercase;
+    color: var(--muted); transition: color .2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+  .nav-cta {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .08em; text-transform: uppercase;
+    padding: 8px 18px;
+    border: 1px solid var(--accent);
+    border-radius: 2px;
+    color: var(--accent);
+    transition: all .2s;
+  }
+  .nav-cta:hover { background: var(--accent); color: #080808; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 40px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(200,240,78,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(78,240,200,0.03) 0%, transparent 60%);
+  }
+  .hero-grid {
+    position: absolute; inset: 0; pointer-events: none; opacity: .03;
+    background-image:
+      linear-gradient(var(--text) 1px, transparent 1px),
+      linear-gradient(90deg, var(--text) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px; letter-spacing: .16em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 24px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-label::before {
+    content: ''; display: block;
+    width: 24px; height: 1px; background: var(--accent);
+  }
+  .hero h1 {
+    font-size: clamp(48px, 8vw, 96px);
+    font-weight: 800; line-height: .95;
+    letter-spacing: -.03em;
+    margin-bottom: 32px;
+    max-width: 900px;
+  }
+  .hero h1 .line2 { color: var(--accent); display: block; }
+  .hero-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px; color: var(--muted);
+    line-height: 1.7; max-width: 480px;
+    margin-bottom: 48px;
+  }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    padding: 14px 28px;
+    background: var(--accent); color: #080808;
+    border: none; border-radius: 2px;
+    cursor: pointer; transition: opacity .2s; font-weight: 500;
+  }
+  .btn-primary:hover { opacity: .85; }
+  .btn-secondary {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px; letter-spacing: .08em; text-transform: uppercase;
+    padding: 14px 28px;
+    background: transparent; color: var(--text);
+    border: 1px solid var(--border2);
+    border-radius: 2px; cursor: pointer; transition: border-color .2s;
+  }
+  .btn-secondary:hover { border-color: var(--text); }
+  .hero-stats {
+    position: absolute; right: 40px; bottom: 80px;
+    display: flex; flex-direction: column; gap: 24px;
+    text-align: right;
+  }
+  .hero-stat-num {
+    font-size: 32px; font-weight: 800; letter-spacing: -.02em;
+    color: var(--accent);
+  }
+  .hero-stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 100px 40px; }
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .section-label::before { content: ''; width: 20px; height: 1px; background: var(--accent); }
+  .section-title {
+    font-size: clamp(28px, 4vw, 42px);
+    font-weight: 800; letter-spacing: -.02em;
+    line-height: 1.05; margin-bottom: 16px;
+  }
+  .section-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; color: var(--muted);
+    line-height: 1.7; max-width: 520px;
+    margin-bottom: 56px;
+  }
+
+  /* ABOUT */
+  .about { border-top: 1px solid var(--border); }
+  .about-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 80px;
+    align-items: center;
+  }
+  .about-text p {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; color: var(--muted); line-height: 1.85;
+    margin-bottom: 20px;
+  }
+  .about-text p strong { color: var(--text); font-weight: 500; }
+  .certs {
+    display: flex; flex-wrap: wrap; gap: 8px; margin-top: 32px;
+  }
+  .cert {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: .08em; text-transform: uppercase;
+    padding: 6px 12px; border: 1px solid var(--border2);
+    border-radius: 2px; color: var(--muted);
+  }
+  .about-right { position: relative; }
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 4px; padding: 32px;
+  }
+  .about-card-item {
+    display: flex; align-items: flex-start; gap: 16px;
+    padding: 16px 0; border-bottom: 1px solid var(--border);
+  }
+  .about-card-item:last-child { border-bottom: none; padding-bottom: 0; }
+  .about-card-item:first-child { padding-top: 0; }
+  .aci-icon {
+    width: 32px; height: 32px; border-radius: 2px;
+    background: var(--accent-dim); display: flex;
+    align-items: center; justify-content: center;
+    flex-shrink: 0; font-size: 14px;
+  }
+  .aci-label { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .aci-val {
+    font-family: 'DM Mono', monospace; font-size: 11px; color: var(--muted);
+  }
+
+  /* SERVICES */
+  .services { background: var(--surface2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+  .filter-bar {
+    display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 48px;
+  }
+  .filter-btn {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px; letter-spacing: .1em; text-transform: uppercase;
+    padding: 7px 16px; border: 1px solid var(--border2);
+    border-radius: 2px; background: transparent;
+    color: var(--muted); cursor: pointer; transition: all .15s;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .filter-btn.active { background: var(--accent); color: #080808; border-color: var(--accent); font-weight: 500; }
+  .services-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 1px; background: var(--border);
+  }
+  .svc-card {
+    background: var(--surface2); padding: 28px;
+    display: flex; flex-direction: column; gap: 0;
+    transition: background .2s; position: relative; overflow: hidden;
+  }
+  .svc-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 2px; height: 0; background: var(--accent);
+    transition: height .3s;
+  }
+  .svc-card:hover { background: #1a1a1a; }
+  .svc-card:hover::before { height: 100%; }
+  .svc-card.hidden { display: none; }
+  .svc-top {
+    display: flex; justify-content: space-between;
+    align-items: flex-start; margin-bottom: 14px;
+  }
+  .svc-cat-dot { width: 7px; height: 7px; border-radius: 50%; margin-top: 5px; }
+  .svc-price {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--accent); background: var(--accent-dim);
+    padding: 4px 10px; border-radius: 2px; white-space: nowrap;
+  }
+  .svc-title {
+    font-size: 15px; font-weight: 700; letter-spacing: -.01em;
+    line-height: 1.2; margin-bottom: 10px; flex: 1; padding-right: 8px;
+  }
+  .svc-desc {
+    font-family: 'DM Mono', monospace; font-size: 11.5px;
+    color: var(--muted); line-height: 1.8; margin-bottom: 16px; flex: 1;
+  }
+  .svc-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+  .svc-tag {
+    font-family: 'DM Mono', monospace; font-size: 9.5px;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 8px; background: #1e1e1e;
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 2px; color: var(--muted2);
+  }
+  .svc-footer {
+    display: flex; justify-content: space-between; align-items: center;
+    padding-top: 14px; border-top: 1px solid var(--border); margin-top: auto;
+  }
+  .svc-duration {
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted);
+  }
+  .diff {
+    font-family: 'DM Mono', monospace; font-size: 9.5px;
+    letter-spacing: .06em; text-transform: uppercase;
+    padding: 3px 8px; border-radius: 2px;
+  }
+  .diff-easy { background: rgba(78,240,200,.08); color: var(--teal); border: 1px solid rgba(78,240,200,.15); }
+  .diff-med { background: rgba(240,168,78,.08); color: var(--amber); border: 1px solid rgba(240,168,78,.15); }
+  .diff-high { background: rgba(240,78,78,.08); color: var(--red); border: 1px solid rgba(240,78,78,.15); }
+
+  /* PROCESS */
+  .process { border-top: 1px solid var(--border); }
+  .process-steps {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0; background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .process-step {
+    background: var(--bg); padding: 36px 28px;
+    position: relative;
+  }
+  .process-step-num {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: .12em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 16px;
+  }
+  .process-step h3 { font-size: 16px; font-weight: 700; margin-bottom: 10px; }
+  .process-step p {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--muted); line-height: 1.8;
+  }
+
+  /* TESTIMONIALS */
+  .testimonials { border-top: 1px solid var(--border); background: var(--surface2); }
+  .testi-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  .testi-card {
+    background: var(--bg); border: 1px solid var(--border2);
+    border-radius: 4px; padding: 28px;
+  }
+  .testi-quote {
+    font-family: 'DM Mono', monospace; font-size: 12.5px;
+    color: var(--muted); line-height: 1.8; margin-bottom: 20px;
+    font-style: italic;
+  }
+  .testi-author { display: flex; align-items: center; gap: 12px; }
+  .testi-avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: var(--accent-dim); border: 1px solid var(--accent-dim2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 700; color: var(--accent);
+  }
+  .testi-name { font-size: 13px; font-weight: 600; }
+  .testi-role { font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted); }
+
+  /* CTA */
+  .cta-section {
+    border-top: 1px solid var(--border);
+    text-align: center;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,240,78,0.06) 0%, transparent 70%);
+  }
+  .cta-section .section-label { justify-content: center; }
+  .cta-section .section-label::before { display: none; }
+  .cta-section .section-title { max-width: 600px; margin: 0 auto 16px; }
+  .cta-section .section-sub { margin: 0 auto 48px; text-align: center; }
+  .cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+  .contact-options {
+    display: flex; justify-content: center; gap: 32px;
+    margin-top: 48px; flex-wrap: wrap;
+  }
+  .contact-option {
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    color: var(--muted); letter-spacing: .06em;
+  }
+  .contact-option span { color: var(--text); }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 40px;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-logo { font-size: 13px; font-weight: 800; }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy {
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted);
+    letter-spacing: .06em;
+  }
+  .footer-links { display: flex; gap: 24px; }
+  .footer-links a {
+    font-family: 'DM Mono', monospace; font-size: 10px;
+    letter-spacing: .08em; text-transform: uppercase;
+    color: var(--muted); transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--accent); }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .hero h1 { animation: fadeUp .8s ease both; }
+  .hero-sub { animation: fadeUp .8s .15s ease both; }
+  .hero-ctas { animation: fadeUp .8s .3s ease both; }
+  .hero-label { animation: fadeUp .8s ease both; }
+
+  /* MOBILE */
+  @media (max-width: 768px) {
+    nav { padding: 0 20px; }
+    .nav-links { display: none; }
+    section { padding: 70px 20px; }
+    .hero { padding: 0 20px 70px; }
+    .hero-stats { display: none; }
+    .about-grid { grid-template-columns: 1fr; gap: 40px; }
+    footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+ <div class="nav-logo"><img src="zvde-logo.png" alt="ZadeWrld logo">Zade<span>Wrld</span></div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+  </div>
+  <a href="#contact" class="nav-cta">Work With Me</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-label">Montreal-based · Available worldwide</div>
+  <h1>Cybersecurity<br><span class="line2">&amp; IT Consulting</span></h1>
+  <p class="hero-sub">Protecting businesses, auditing vulnerabilities, and building secure infrastructure — so you can focus on growth without the risk.</p>
+  <div class="hero-ctas">
+    <a href="#services" class="btn-primary">View Services</a>
+    <a href="#contact" class="btn-secondary">Book a Call</a>
+  </div>
+  <div class="hero-stats">
+    <div>
+      <div class="hero-stat-num">14+</div>
+      <div class="hero-stat-label">Services offered</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">48hr</div>
+      <div class="hero-stat-label">Avg turnaround</div>
+    </div>
+    <div>
+      <div class="hero-stat-num">100%</div>
+      <div class="hero-stat-label">Remote delivery</div>
+    </div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="section-label">About</div>
+  <div class="about-grid">
+    <div class="about-text">
+      <div class="section-title">IT professional.<br>Security-first mindset.</div>
+      <p>I'm Zade — a Montreal-based IT and cybersecurity consultant with hands-on experience in <strong>penetration testing, vulnerability assessments, infrastructure security, and remote IT support</strong>.</p>
+      <p>I work with small businesses, startups, and solopreneurs who know security matters but don't have an internal IT team to handle it. I operate fully remote, deliver fast, and speak plain language — no jargon, no bloat.</p>
+      <p>Alongside consulting, I build and share content through <strong>ZadeWrld</strong> — a brand focused on digital income, financial freedom, and escaping the traditional 9–5 through skills and leverage.</p>
+      <div class="certs">
+        <div class="cert">IT Infrastructure</div>
+        <div class="cert">Cybersecurity</div>
+        <div class="cert">Penetration Testing</div>
+        <div class="cert">Graphic Design</div>
+        <div class="cert">Montreal, QC 🇨🇦</div>
+      </div>
+    </div>
+    <div class="about-right">
+      <div class="about-card">
+        <div class="about-card-item">
+          <div class="aci-icon">🔒</div>
+          <div>
+            <div class="aci-label">Security-first approach</div>
+            <div class="aci-val">Every engagement starts with threat modeling</div>
+          </div>
+        </div>
+        <div class="about-card-item">
+          <div class="aci-icon">⚡</div>
+          <div>
+            <div class="aci-label">Fast delivery</div>
+            <div class="aci-val">Most audits delivered within 24–48 hours</div>
+          </div>
+        </div>
+        <div class="about-card-item">
+          <div class="aci-icon">📄</div>
+          <div>
+            <div class="aci-label">Clear reporting</div>
+            <div class="aci-val">Executive summaries + technical detail</div>
+          </div>
+        </div>
+        <div class="about-card-item">
+          <div class="aci-icon">🌐</div>
+          <div>
+            <div class="aci-label">100% remote</div>
+            <div class="aci-val">Serving clients across Canada & US</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="services">
+  <div class="section-label">Services</div>
+  <div class="section-title">What I offer</div>
+  <p class="section-sub">Flat-rate and hourly engagements. Every service includes a written deliverable. No retainer required to start.</p>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" onclick="filterSvc('all',this)">All services</button>
+    <button class="filter-btn" onclick="filterSvc('sec',this)">Cybersecurity</button>
+    <button class="filter-btn" onclick="filterSvc('it',this)">IT & Infrastructure</button>
+    <button class="filter-btn" onclick="filterSvc('quick',this)">Quick wins</button>
+    <button class="filter-btn" onclick="filterSvc('retainer',this)">Retainers</button>
+  </div>
+
+  <div class="services-grid">
+
+    <div class="svc-card" data-cat="sec quick">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#c8f04e"></div>
+        <div class="svc-price">$300 – $700</div>
+      </div>
+      <div class="svc-title">Small Business Security Audit</div>
+      <div class="svc-desc">Full assessment of your digital security posture — email hygiene, password policies, network exposure, software vulnerabilities, and employee access controls. Delivered as a prioritized written report with a fix checklist your team can act on immediately.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Written report</span>
+        <span class="svc-tag">Risk score</span>
+        <span class="svc-tag">Fix checklist</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 3–6 hrs</span>
+        <span class="diff diff-easy">Easy entry</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="sec quick">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#c8f04e"></div>
+        <div class="svc-price">$400 – $900</div>
+      </div>
+      <div class="svc-title">Dark Web Exposure Report</div>
+      <div class="svc-desc">Search leaked credential databases and dark web sources for your business's email domains, employee credentials, and sensitive data. Delivered as a confidential report with everything found and exact remediation steps. Most clients are shocked at what surfaces.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Exposure report</span>
+        <span class="svc-tag">Credential list</span>
+        <span class="svc-tag">Remediation steps</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 2–4 hrs</span>
+        <span class="diff diff-easy">High value / low time</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="sec quick">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#c8f04e"></div>
+        <div class="svc-price">$200 – $500</div>
+      </div>
+      <div class="svc-title">Password & Identity Security Setup</div>
+      <div class="svc-desc">Audit and overhaul your password and identity management — password manager deployment (Bitwarden / 1Password), MFA enforcement on all accounts, OAuth permission cleanup, and shared credential elimination. Ideal for teams still using the same passwords everywhere.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Password manager</span>
+        <span class="svc-tag">MFA on all accounts</span>
+        <span class="svc-tag">Access audit</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 2–4 hrs</span>
+        <span class="diff diff-easy">Quick win</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="sec">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#c8f04e"></div>
+        <div class="svc-price">$500 – $1,500</div>
+      </div>
+      <div class="svc-title">Vulnerability Assessment</div>
+      <div class="svc-desc">Automated and manual scanning of your web app, internal network, or public-facing infrastructure. Every finding is documented with a CVSS severity score and developer-ready remediation guidance. Delivered as an executive summary plus full technical report.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Scan report</span>
+        <span class="svc-tag">CVSS ratings</span>
+        <span class="svc-tag">Remediation guide</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 1–3 days</span>
+        <span class="diff diff-med">Mid-tier</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="sec">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#c8f04e"></div>
+        <div class="svc-price">$150 – $300</div>
+      </div>
+      <div class="svc-title">Phishing Simulation + Staff Training</div>
+      <div class="svc-desc">Controlled fake phishing campaign sent to your team, with click tracking and a 45-minute live training session. Human error is the #1 attack vector — this gives your team firsthand experience of how attacks work and how to spot them. Best for teams of 5–50.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Simulated attack</span>
+        <span class="svc-tag">Click rate report</span>
+        <span class="svc-tag">Training session</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ Half day</span>
+        <span class="diff diff-easy">Easy to sell</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="sec">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#c8f04e"></div>
+        <div class="svc-price">$800 – $2,500</div>
+      </div>
+      <div class="svc-title">Web App Penetration Test</div>
+      <div class="svc-desc">Simulated real-world attack on your web application — SQL injection, XSS, broken auth, IDOR, API misconfigurations. Scoped upfront via written agreement. Full pentest report with proof-of-concept screenshots and developer-ready fix descriptions for every finding.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Pentest report</span>
+        <span class="svc-tag">PoC evidence</span>
+        <span class="svc-tag">Dev fix guide</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 2–5 days</span>
+        <span class="diff diff-high">Premium</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="it retainer">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#4ef0c8"></div>
+        <div class="svc-price">$500 – $1,500 / mo</div>
+      </div>
+      <div class="svc-title">Remote IT Support Retainer</div>
+      <div class="svc-desc">Your part-time IT department. Monthly retainer covering troubleshooting, device setup, software installs, email migrations, and general tech support via Slack or email. Priority response time. Ideal for small teams of 2–20 who can't justify a full-time IT hire.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Monthly retainer</span>
+        <span class="svc-tag">Slack/email support</span>
+        <span class="svc-tag">Priority response</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ Ongoing</span>
+        <span class="diff diff-easy">Recurring revenue</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="it quick">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#4ef0c8"></div>
+        <div class="svc-price">$300 – $800</div>
+      </div>
+      <div class="svc-title">SaaS & Cloud Cost Audit</div>
+      <div class="svc-desc">Full inventory of every active subscription, cloud bill, and software license in your business. Identify redundant tools, zombie accounts, and optimization opportunities. Most growing businesses overpay by 20–40% on SaaS. Strong ROI story — you save them money, charge a fraction of the savings.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Full tool inventory</span>
+        <span class="svc-tag">Savings estimate</span>
+        <span class="svc-tag">Consolidation plan</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 1–2 days</span>
+        <span class="diff diff-easy">Easy pitch</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="it">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#4ef0c8"></div>
+        <div class="svc-price">$500 – $2,000</div>
+      </div>
+      <div class="svc-title">Secure Remote Work Setup</div>
+      <div class="svc-desc">Design and implement a secure remote work environment — VPN configuration, MDM enrollment, endpoint protection, encrypted file sharing, and Zero Trust access policies. Built for companies that went remote fast and never properly secured the transition.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">VPN + MDM config</span>
+        <span class="svc-tag">Endpoint hardening</span>
+        <span class="svc-tag">Policy docs</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 2–5 days</span>
+        <span class="diff diff-med">Mid-tier</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="it">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#4ef0c8"></div>
+        <div class="svc-price">$100 – $250 / hr</div>
+      </div>
+      <div class="svc-title">IT Infrastructure Consultation</div>
+      <div class="svc-desc">Review and advise on your entire tech stack — cloud vs on-prem decisions, SaaS sprawl, backup systems, server setup, and cost optimization. Ideal for startups and SMBs who hacked together their IT setup over time and need a professional to clean it up.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Infrastructure map</span>
+        <span class="svc-tag">Cost analysis</span>
+        <span class="svc-tag">Roadmap</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ Varies</span>
+        <span class="diff diff-easy">Flexible scope</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="it">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#4ef0c8"></div>
+        <div class="svc-price">$400 – $1,200</div>
+      </div>
+      <div class="svc-title">Backup & Disaster Recovery Plan</div>
+      <div class="svc-desc">Audit current backup systems, identify single points of failure, and implement a proper 3-2-1 backup strategy (3 copies, 2 different media, 1 offsite/cloud). Includes a tested recovery runbook. Most SMBs have no real backup — one data loss story in your pitch closes this every time.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Backup audit</span>
+        <span class="svc-tag">3-2-1 setup</span>
+        <span class="svc-tag">Recovery runbook</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 1–3 days</span>
+        <span class="diff diff-easy">Easy to pitch</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="quick retainer">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#f0a84e"></div>
+        <div class="svc-price">$200 – $500</div>
+      </div>
+      <div class="svc-title">Creator / Solopreneur Security Audit</div>
+      <div class="svc-desc">Built specifically for content creators, coaches, and solopreneurs — social account protection, email security, payment platform hygiene, domain security (SPF/DKIM/DMARC), and content backup strategy. Low-friction, high-value, and directly relevant to your audience.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">Account audit</span>
+        <span class="svc-tag">Protection checklist</span>
+        <span class="svc-tag">1-hr walkthrough</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 2–3 hrs</span>
+        <span class="diff diff-easy">Audience-native</span>
+      </div>
+    </div>
+
+    <div class="svc-card" data-cat="quick">
+      <div class="svc-top">
+        <div class="svc-cat-dot" style="background:#f0a84e"></div>
+        <div class="svc-price">$150 – $400 / session</div>
+      </div>
+      <div class="svc-title">IT / Cybersec Career Coaching</div>
+      <div class="svc-desc">Break into IT or cybersecurity with a personalized roadmap — certification path (CompTIA, CEH, OSCP), resume review, interview prep, and portfolio strategy. Perfect upsell for your ebook readers who want 1-on-1 guidance. You've done it — they'll pay to learn exactly how.</div>
+      <div class="svc-tags">
+        <span class="svc-tag">60-min call</span>
+        <span class="svc-tag">Custom roadmap</span>
+        <span class="svc-tag">Resume feedback</span>
+      </div>
+      <div class="svc-footer">
+        <span class="svc-duration">⏱ 1 hr + prep</span>
+        <span class="diff diff-easy">Ebook upsell</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="process">
+  <div class="section-label">How it works</div>
+  <div class="section-title">Simple process.<br>Fast delivery.</div>
+  <p class="section-sub">No lengthy onboarding, no bloated proposals. We scope it, I execute, you get a report.</p>
+  <div class="process-steps">
+    <div class="process-step">
+      <div class="process-step-num">01 — Intake</div>
+      <h3>Free 20-min call</h3>
+      <p>We talk through your setup, what you're worried about, and which service fits. No pitch, just scoping.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">02 — Proposal</div>
+      <h3>Flat-rate quote</h3>
+      <p>You get a written scope and fixed price within 24 hours. No hidden fees, no hourly overruns.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">03 — Execution</div>
+      <h3>I get to work</h3>
+      <p>Most engagements complete within 24–72 hours. You'll get a progress update halfway through.</p>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">04 — Delivery</div>
+      <h3>Full written report</h3>
+      <p>Every engagement ends with a professional document you can act on, share with your team, or file for compliance.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="section-label">Social proof</div>
+  <div class="section-title">What clients say</div>
+  <p class="section-sub">Replace these with real testimonials as you collect them. DM past colleagues or offer a free audit in exchange for feedback.</p>
+  <div class="testi-grid">
+    <div class="testi-card">
+      <div class="testi-quote">"Found 3 leaked employee credentials in the dark web report we didn't know existed. Worth every dollar — we fixed everything the same day."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">MR</div>
+        <div>
+          <div class="testi-name">Marcus R.</div>
+          <div class="testi-role">Owner, Montreal retail SMB</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"We were paying for 14 SaaS tools and using 6. The cost audit saved us $800/month immediately. Should have done this years ago."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">SL</div>
+        <div>
+          <div class="testi-name">Sarah L.</div>
+          <div class="testi-role">Founder, e-commerce startup</div>
+        </div>
+      </div>
+    </div>
+    <div class="testi-card">
+      <div class="testi-quote">"Zade is the first consultant I've worked with who explains everything in plain English. Report was clear, actionable, and we had it in 48 hours."</div>
+      <div class="testi-author">
+        <div class="testi-avatar">JP</div>
+        <div>
+          <div class="testi-name">James P.</div>
+          <div class="testi-role">CTO, B2B SaaS company</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contact">
+  <div class="section-label">Contact</div>
+  <div class="section-title">Ready to secure<br>your business?</div>
+  <p class="section-sub">Book a free 20-minute scoping call. No obligation. I'll tell you exactly which service fits and what it costs.</p>
+  <div class="cta-btns">
+    <a href="mailto:brandon.limas26@gmail.com" class="btn-primary">Email me directly</a>
+    <a href="https://stan.store/zvdewrld" target="_blank" class="btn-secondary">View Stan store</a>
+  </div>
+  <div class="contact-options">
+    <div class="contact-option">Email <span>brandon.limas26@gmail.com</span></div>
+    <div class="contact-option">Instagram <span>@zadewrld</span></div>
+    <div class="contact-option">Based in <span>Montreal, QC 🇨🇦</span></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Zade<span>Wrld</span></div>
+  <div class="footer-copy">© 2025 ZadeWrld. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#process">Process</a>
+    <a href="#contact">Contact</a>
+    <a href="https://stan.store/zvdewrld" target="_blank">Stan Store</a>
+  </div>
+</footer>
+
+<script>
+function filterSvc(cat, btn) {
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.svc-card').forEach(c => {
+    if (cat === 'all') { c.classList.remove('hidden'); return; }
+    c.classList.toggle('hidden', !(c.dataset.cat || '').includes(cat));
+  });
+}
+
+// Smooth reveal on scroll
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.svc-card, .process-step, .testi-card, .about-card-item').forEach((el, i) => {
+  el.style.opacity = '0';
+  el.style.transform = 'translateY(20px)';
+  el.style.transition = `opacity 0.5s ${i * 0.05}s ease, transform 0.5s ${i * 0.05}s ease`;
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
