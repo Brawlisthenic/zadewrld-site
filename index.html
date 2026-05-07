@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta property="og:title" content="ZadeWrld — Cybersecurity & IT Consulting">
-<meta property="og:description" content="Security audits, IT consulting, and dark web monitoring for small businesses in Montreal.">
-<meta property="og:image" content="https://zadewrld.com/zvde-logo.png">
-<meta property="og:url" content="https://zadewrld.com">
-<meta property="og:type" content="website">
-<meta name="twitter:card" content="summary_large_image">
 <meta charset="UTF-8">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ZadeWrld — Cybersecurity & IT Consulting</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,7 +47,7 @@
     font-size: 15px; font-weight: 800; letter-spacing: -.01em;
     display: flex; align-items: center; gap: 10px;
   }
-  .nav-logo img { width: 28px; height: 28px; object-fit: contain; }
+  .nav-logo img { width: 28px; height: 28px; object-fit: contain; filter: invert(1); }
   .nav-logo span { color: var(--accent); }
   .nav-links { display: flex; gap: 32px; }
   .nav-links a {
@@ -393,13 +386,96 @@
 
   /* MOBILE */
   @media (max-width: 768px) {
-    nav { padding: 0 20px; }
+
+    /* NAV */
+    nav { padding: 0 20px; height: 56px; }
     .nav-links { display: none; }
-    section { padding: 70px 20px; }
-    .hero { padding: 0 20px 70px; }
+    .nav-cta { padding: 7px 14px; font-size: 10px; }
+    .nav-logo { font-size: 14px; }
+    .nav-logo img { width: 24px; height: 24px; }
+
+    /* HERO */
+    .hero {
+      min-height: 100svh;
+      padding: 80px 20px 60px;
+      justify-content: flex-end;
+    }
+    .hero h1 {
+      font-size: clamp(36px, 11vw, 56px);
+      letter-spacing: -.025em;
+      margin-bottom: 20px;
+      line-height: 1.0;
+    }
+    .hero-sub { font-size: 13px; margin-bottom: 32px; max-width: 100%; }
+    .hero-label { font-size: 10px; margin-bottom: 16px; }
     .hero-stats { display: none; }
-    .about-grid { grid-template-columns: 1fr; gap: 40px; }
-    footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; }
+    .hero-ctas { flex-direction: column; gap: 10px; }
+    .btn-primary, .btn-secondary { width: 100%; text-align: center; padding: 14px 20px; font-size: 11px; }
+
+    /* SECTIONS */
+    section { padding: 60px 20px; }
+    .section-title { font-size: clamp(24px, 7vw, 32px); }
+    .section-sub { font-size: 12px; margin-bottom: 36px; }
+
+    /* ABOUT */
+    .about-grid { grid-template-columns: 1fr; gap: 36px; }
+    .about-card { padding: 20px; }
+    .about-card-item { padding: 12px 0; gap: 12px; }
+    .aci-label { font-size: 12px; }
+    .aci-val { font-size: 10px; }
+    .certs { gap: 6px; margin-top: 20px; }
+    .cert { font-size: 9px; padding: 5px 10px; }
+
+    /* SERVICES */
+    .services { padding: 60px 0; }
+    .services > .section-label,
+    .services > .section-title,
+    .services > p { padding-left: 20px; padding-right: 20px; }
+    .filter-bar {
+      padding: 0 20px 4px;
+      margin-bottom: 28px;
+      gap: 6px;
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+    .filter-btn { font-size: 9px; padding: 6px 12px; white-space: nowrap; flex-shrink: 0; }
+    .services-grid { grid-template-columns: 1fr; }
+    .svc-card { padding: 20px; }
+    .svc-title { font-size: 14px; }
+    .svc-desc { font-size: 11px; }
+    .svc-price { font-size: 10px; padding: 3px 8px; }
+    .svc-tag { font-size: 9px; }
+    .svc-duration { font-size: 9px; }
+    .diff { font-size: 9px; padding: 2px 6px; }
+
+    /* PROCESS */
+    .process-steps { grid-template-columns: 1fr; }
+    .process-step { padding: 24px 20px; }
+    .process-step h3 { font-size: 15px; }
+    .process-step p { font-size: 11px; }
+
+    /* TESTIMONIALS */
+    .testi-grid { grid-template-columns: 1fr; gap: 16px; }
+    .testi-card { padding: 20px; }
+    .testi-quote { font-size: 12px; }
+
+    /* CTA */
+    .cta-btns { flex-direction: column; align-items: stretch; gap: 10px; }
+    .cta-btns .btn-primary,
+    .cta-btns .btn-secondary { width: 100%; text-align: center; }
+    .contact-options { flex-direction: column; gap: 12px; align-items: center; margin-top: 36px; }
+    .contact-option { font-size: 11px; }
+
+    /* FOOTER */
+    footer { padding: 24px 20px; flex-direction: column; align-items: flex-start; gap: 14px; }
+    .footer-links { gap: 16px; flex-wrap: wrap; }
+    .footer-copy { font-size: 9px; }
+  }
+
+  @media (max-width: 390px) {
+    .hero h1 { font-size: 34px; }
+    .nav-cta { display: none; }
   }
 </style>
 </head>
@@ -407,7 +483,7 @@
 
 <!-- NAV -->
 <nav>
- <div class="nav-logo"><img src="zvde-logo.png" alt="ZadeWrld logo">Zade<span>Wrld</span></div>
+  <div class="nav-logo"><img src="logo.png" alt="ZadeWrld logo">Zade<span>Wrld</span></div>
   <div class="nav-links">
     <a href="#about">About</a>
     <a href="#services">Services</a>
@@ -823,11 +899,11 @@
   <div class="section-title">Ready to secure<br>your business?</div>
   <p class="section-sub">Book a free 20-minute scoping call. No obligation. I'll tell you exactly which service fits and what it costs.</p>
   <div class="cta-btns">
-    <a href="mailto:brandon.limas26@gmail.com" class="btn-primary">Email me directly</a>
-    <a href="https://stan.store/zvdewrld" target="_blank" class="btn-secondary">View Stan store</a>
+    <a href="mailto:hello@zadewrld.com" class="btn-primary">Email me directly</a>
+    <a href="https://stan.store/zadewrld" target="_blank" class="btn-secondary">View Stan store</a>
   </div>
   <div class="contact-options">
-    <div class="contact-option">Email <span>brandon.limas26@gmail.com</span></div>
+    <div class="contact-option">Email <span>contact@zadewrld.com</span></div>
     <div class="contact-option">Instagram <span>@zvdewrld</span></div>
     <div class="contact-option">Based in <span>Montreal, QC 🇨🇦</span></div>
   </div>
@@ -841,7 +917,7 @@
     <a href="#services">Services</a>
     <a href="#process">Process</a>
     <a href="#contact">Contact</a>
-    <a href="https://stan.store/zvdewrld" target="_blank">Stan Store</a>
+    <a href="https://stan.store/zadewrld" target="_blank">Stan Store</a>
   </div>
 </footer>
 
